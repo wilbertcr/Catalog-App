@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/AddItemForm.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/AddItemForm.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import ReactDOM from &apos;react-dom&apos;;
+import Component from &apos;./Component&apos;;
+var bleach = require(&apos;bleach&apos;);
+
+/**
+ *
+ * @class AddItemForm
+ * */
+export default class AddItemForm extends Component {
+    /**
+     * @constructs EditItemForm
+     * @param {Object} props - Object passed down to us from our parent..
+     * @param {Object} props.addItem - See {@link CatalogApp#addItem}
+     * @param {number} props.categoryId - See {@link CatalogApp#state}
+     * @param {Object} props.switchModalVisibility - See {@link ItemsContainer#switchModalVisibility}
+     * */
+    constructor(props) {
+        super(props);
+        /**
+         * @member {Object} A state object composed of the state variables.
+         * @property {boolean} state.isNameValid
+         * @property {boolean} state.isPriceValid
+         * @property {boolean} state.isDescriptionValid
+         * @property {boolean} state.newPictureMounted
+         * @property {number} state.id - The item&apos;s id.
+         * @property {string} state.picture - The path to the item&apos;s picture
+         * @property {string} state.name - The item&apos;s name.
+         * @property {string} state.price - The item&apos;s price.
+         * @property {string} state.description - The item&apos;s description.
+         * @property {number} state.stage - The stage of the form(0 or 1).
+         * @property {Object} state.file - A File object
+         * @property {boolean} state.validated - If true, the form&apos;s fields are all valid.
+         * */
+        this.state = {
+                isNameValid: false,
+                isPriceValid: false,
+                isDescriptionValid: false,
+                newPictureMounted:false,
+                id: 0,
+                picture: &quot;/static/images/image.png&quot;,
+                name: &quot;&quot;,
+                price: &quot;&quot;,
+                description: &quot;&quot;,
+                stage: 0,
+                file: null,
+                validated: true,
+                isInputEnabled: true
+        }
+    }
+
+    /**
+     * Moves form from editing(0) to confirmation(1) stage.
+     * */
+    advanceStage(){
+        this.setState({
+            ...this.state,
+            stage: this.state.stage+1,
+            isInputEnabled: false
+        });
+    }
+
+    goBack(){
+        this.setState({
+            ...this.state,
+            stage: this.state.stage-1,
+            isInputEnabled: true
+        });
+    }
+
+    isValidated(){
+        return &quot;&quot; !== this.state.price &amp;&amp;
+            &quot;&quot; !== this.state.name &amp;&amp;
+            &quot;&quot; !== this.state.description &amp;&amp;
+            &quot;&quot; !== this.state.picture &amp;&amp;
+            this.state.newPictureMounted;
+    }
+
+    hasChanged(){
+        return  &quot;&quot; !== this.state.price ||
+            &quot;&quot; !== this.state.name ||
+            &quot;&quot; !== this.state.description ||
+            &quot;&quot; !== this.state.picture;
+    }
+
+    updateName(e){
+        let newName = bleach.sanitize(this.inputName.value);
+        this.setState({
+            ...this.state,
+            name: newName,
+            isNameValid: newName!==&quot;&quot;,
+            validated:  newName!==&quot;&quot; &amp;&amp;
+            this.state.isDescriptionValid &amp;&amp;
+            this.state.isPriceValid
+        });
+    }
+
+    updatePrice(e){
+
+        let newPrice = bleach.sanitize(this.inputPrice.value);
+        this.setState({
+            ...this.state,
+            price: newPrice,
+            isPriceValid: newPrice!==&quot;&quot;,
+            validated:  this.state.isNameValid &amp;&amp;
+            this.state.isDescriptionValid &amp;&amp;
+            newPrice!==&quot;&quot;
+        });
+    }
+
+    updateDescription(e){
+        let newDescription = bleach.sanitize(this.inputDescription.value);
+        this.setState({
+            ...this.state,
+            description: newDescription,
+            isDescriptionValid: newDescription!==&quot;&quot;,
+            validated: newDescription!==&quot;&quot; &amp;&amp;
+            this.state.isNameValid &amp;&amp;
+            this.state.isPriceValid
+        });
+    }
+
+    /**
+     * Ships item for editing in both, front end and back end.
+     * */
+    addItem(){
+        /**
+         * Item must be &quot;valid&quot;
+         * */
+        if(this.isValidated()){
+            var item = {
+                categoryId: this.props.categoryId,
+                id:this.state.id,
+                //this.isValidated==true means a file has been mounted, so it is safe to use its name here.
+                picture: &quot;/static/images/&quot;+this.state.file.name,
+                name: this.state.name,
+                price: this.state.price,
+                description: this.state.description,
+                file: this.state.file,
+                newPicture: this.state.newPictureMounted
+            };
+            /**
+             * We only want to talk to the backend
+             * if there&apos;s something to change
+             * */
+            if(this.hasChanged()){
+                this.props.addItem(item);
+            }
+
+            /**
+             * Now we start the process of
+             * hiding this menu and its modal.
+             * */
+            this.switchModalVisibility();
+        }
+    }
+
+    /**
+     * Reset the fields in the form to their original state.
+     * */
+    resetFields(){
+        this.setState({
+            isNameValid: false,
+            isPriceValid: false,
+            isDescriptionValid: false,
+            newPictureMounted:false,
+            id: 0,
+            picture: &quot;/static/images/image.png&quot;,
+            name: &quot;&quot;,
+            price: &quot;&quot;,
+            description: &quot;&quot;,
+            stage: 0,
+            file: null,
+            validated: true,
+            isInputEnabled: true
+        });
+    }
+
+    /**
+     * Effectively hiding the modal without
+     * successfully saving its contents.
+     * */
+    switchModalVisibility(){
+        /**
+         * Reset and hide form.
+         * */
+        this.resetFields();
+        this.props.switchModalVisibility();
+    }
+
+    /**
+     * Prevents default behavior and prevents
+     * event e from propagaing up the node tree.
+     * */
+    stopEvent(e){
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    /**
+     * Captures the images dropped by users.
+     * */
+    handleDrop(e){
+        this.stopEvent(e)
+        const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+        var file = droppedFiles[0];
+        file.preview = window.URL.createObjectURL(file);
+        if (file.name.match(/\.(jpg|jpeg|png|gif)$/)){
+            //File uploaded is an image
+            this.setState({
+                picture: file.preview,
+                file: file,
+                newPictureMounted: true
+            });
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            ...this.state,
+            validated: this.isValidated()
+        });
+    }
+
+    render() {
+        var formClasses;
+        var buttons;
+        if(this.state.stage===0 &amp;&amp; this.state.validated){
+            /**
+             * If we&apos;re editing and content is validated
+             * */
+            //Then we want a regular form.
+            formClasses = &apos;ui form&apos;;
+            //And functioning buttons
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui basic blue button&quot;
+                     onClick={this.switchModalVisibility}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui basic green button&quot;
+                     onClick={this.advanceStage}&gt;
+                    Submit&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+        if(this.state.stage===0 &amp;&amp; !this.state.validated){
+            //If we&apos;re editing and content is not validated.
+            //We want to show an error in the form and to disable the button.
+            formClasses = &apos;ui small form error&apos;;
+            //And we want buttons to be disabled.
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui disabled basic blue button&quot;
+                     onClick={this.switchModalVisibility}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui disabled basic green button&quot;
+                     onClick={this.advanceStage}&gt;
+                    Submit&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+        if(this.state.stage===1 &amp;&amp; this.state.validated){
+            //If we are done editing.
+            //We want to show a success message.
+            formClasses = &apos;ui small form success&apos;;
+            //We want to ask the user to confirm via a &quot;success&quot; message.
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui basic blue button&quot;
+                     onClick={this.goBack}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui basic green button&quot;
+                     onClick={this.addItem}&gt;
+                    Send&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+
+        return (
+            &lt;div className=&quot;ui grid container&quot;&gt;
+                &lt;div className=&quot;ui container segment&quot;&gt;
+                    &lt;a className=&quot;ui inverted red ribbon label&quot;&gt;Drag and drop &lt;i className=&quot;photo icon&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                    &lt;div className=&quot;item&quot;&gt;
+                        &lt;i className=&quot;right floated big remove circle icon&quot; onClick={this.switchModalVisibility}&gt;&lt;/i&gt;
+                        &lt;div className=&quot;ui small image&quot;
+                             onDragOver={this.stopEvent}
+                             onDrop={this.handleDrop}&gt;
+                            &lt;div className=&quot;ui container segment&quot;&gt;
+                                &lt;img src={this.state.picture}&gt;&lt;/img&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;content&quot;&gt;
+                            &lt;div className={formClasses}&gt;
+                                &lt;div className=&quot;required field&quot;
+                                     ref={(ref) =&gt; this.FormContainer=ref}&gt;
+                                    &lt;label&gt;Name&lt;/label&gt;
+                                    &lt;input type=&quot;text&quot;
+                                           ref={(ref) =&gt; this.inputName=ref}
+                                           disabled={!this.state.isInputEnabled}
+                                           value={this.state.name}
+                                           onChange={this.updateName}/&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;required field&quot;&gt;
+                                    &lt;label&gt;Price&lt;/label&gt;
+                                    &lt;input type=&quot;text&quot;
+                                           ref={(ref) =&gt; this.inputPrice=ref}
+                                           disabled={!this.state.isInputEnabled}
+                                           value={this.state.price}
+                                           onChange={this.updatePrice}/&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;required field&quot;&gt;
+                                    &lt;label&gt;Description&lt;/label&gt;
+                                    &lt;textarea type=&quot;text&quot;
+                                           ref={(ref) =&gt; this.inputDescription=ref}
+                                              disabled={!this.state.isInputEnabled}
+                                           value={this.state.description}
+                                           onChange={this.updateDescription}/&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;ui error message&quot;&gt;
+                                    &lt;div className=&quot;header&quot;&gt;&lt;/div&gt;
+                                    &lt;p&gt;Please fill out all fields. Don&apos;t forget the photo!&lt;/p&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;ui success message&quot;&gt;
+                                    &lt;div className=&quot;header&quot;&gt;
+                                        &lt;p&gt;Please confirm.&lt;/p&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                {buttons}
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        );
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

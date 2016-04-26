@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/ModalGeneric.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/ModalGeneric.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import ReactDOM from &apos;react-dom&apos;;
+import Component from &apos;./Component&apos;;
+
+
+/**
+ * Represents the modal itself.
+ * @class Modal
+ * */
+export default class ModalGeneric extends Component {
+    /**
+     * @constructs Modal
+     * @param {Object} props - Object passed down to us from our parent.
+     * */
+    constructor(props) {
+        super(props);
+        /**
+         *Represents the current state.
+         * @type {Object}
+         * @property {Object[]} state.node - A reference to the modal container here.
+         * @property {{styles: {top: number, left: number}}} - Used to center the container modal.
+         * */
+        this.state = {
+            node: null,
+            styles: {
+                top: 0,
+                left: 0
+            }
+        };
+    }
+
+    /**
+     * Click handler. We don&apos;t want clicks propagating up, as they would hide the entire modal.
+     * So here we stop propagation of clicks.
+     * @param e - The click event.
+     * */
+    handleClick(e){
+        e.stopPropagation();
+    }
+
+    componentDidMount(){
+        this.state.node = this.modalRef;
+    }
+
+    render() {
+        var top = (window.innerHeight-$(this.state.node).height())/2;
+        var modalClasses = (this.props.isVisible)? &apos;ui small modal transition visible active&apos;: &apos;ui modal transition hidden&apos;;
+        //modalClasses determine which classes to use depending on the visibility state.
+        return (
+            &lt;div className={modalClasses}
+                 onClick={this.handleClick}
+                 style={{top: top}}
+                 ref={(ref) =&gt; this.modalRef=ref}&gt;
+                {this.props.reactComponent}
+            &lt;/div&gt;
+        );
+    }
+}
+
+ModalGeneric.propTypes = {
+    isVisible: React.PropTypes.bool.isRequired,
+    switchModalVisibility: React.PropTypes.func.isRequired,
+    reactComponent: React.PropTypes.element.isRequired
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

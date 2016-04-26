@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/Category.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/Category.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import Component from &apos;./Component&apos;;
+import ModalPageGeneric from &apos;./ModalPageGeneric&apos;
+import EditCategoryForm from &apos;./EditCategoryForm&apos;
+import DeleteCategoryForm from &apos;./DeleteCategoryForm&apos;
+
+/**
+ * Represents the modal itself.
+ * @class Category
+ * */
+export default class Category extends Component{
+    /**
+     * @constructs Category
+     * @param {Object} props - Object passed down to us from our parent.
+     * @param {{id: number, name: string, picture: string}} props.category - A category in the categories array here {@link CatalogApp#state}.
+     * @param {STATUS} props.loginStatus - See {@link CatalogApp#STATUS}
+     * @param {Object} props.displayCategory - See {@link CatalogApp#displayCategory}
+     * @param {Object} props.setActiveCategory - See {@link Sidebar#setActiveCategory}
+     * */
+    constructor(props) {
+        super(props);
+        /** @member {Object} A State object composed of the state variables
+         * @property {string} state.name - The name of the category
+         * @property {boolean} state.isEditModalVisible - If true, edit modal is visible.
+         * @property {boolean} state.isDeleteModalVisible - If true, delete modal is visible.
+         * */
+        this.state = {
+            name:&quot;&quot;,
+            isEditModalVisible: false,
+            isDeleteModalVisible: false,
+        };
+        /** @member {Object} The React element we will display inside the &quot;Edit&quot; modal. Also see {@link Category#render}*/
+        this.EditReactElement = &lt;element&gt;&lt;/element&gt;;
+        /** @member {Object} The React element we will display inside the &quot;Delete&quot; modal. Also see {@link Category#render}*/
+        this.DeleteReactElement = &lt;element&gt;&lt;/element&gt;;
+    }
+
+    displayCategory(){
+        /**
+         * Triggered when a category is clicked.
+         * */
+        //Someone up the chain will display the items of this category and that someone
+        //needs to know the category id we want to display.
+        this.props.displayCategory(this.props.category.id);
+        //We need to tell the world that this category is now the one being displayed.
+        this.props.setActiveCategory(this.props.category.id)
+    }
+
+    switchEditModalVisibility(){
+        /**
+         * Changes the visibility of the &quot;Edit&quot; Modal.
+         * */
+        this.setState({...this.state,isEditModalVisible: !this.state.isEditModalVisible});
+    }
+
+    switchDeleteModalVisibility(){
+        /**
+         * Changes the visibility of the &quot;Delete&quot; Modal.
+         * */
+        this.setState({...this.state,isDeleteModalVisible: !this.state.isDeleteModalVisible});
+    }
+
+    render(){
+
+        this.EditReactElement = &lt;EditCategoryForm
+            {...this.props}
+            switchModalVisibility={this.switchEditModalVisibility}
+        /&gt;;
+
+        this.DeleteReactElement = &lt;DeleteCategoryForm
+            {...this.props}
+            switchModalVisibility={this.switchDeleteModalVisibility}
+        /&gt;;
+
+        var classes = this.props.activeCategory==this.props.category.id ?
+            &quot;blue left active item&quot;:
+            &quot;blue left item&quot;;
+
+        return(
+            &lt;a className={classes}&gt;
+                &lt;i className=&quot;trash red icon&quot;
+                   style={{display: this.props.loginStatus.value ? &apos;inline-block&apos; : &apos;none&apos;}}
+                   onClick={this.switchDeleteModalVisibility}&gt;
+                &lt;/i&gt;
+                &lt;i className=&quot;edit blue icon&quot;
+                      style={{display: this.props.loginStatus.value ? &apos;inline-block&apos; : &apos;none&apos;}}
+                      onClick={this.switchEditModalVisibility}&gt;
+                &lt;/i&gt;
+                &lt;div className=&quot;ui blue circular label&quot;
+                     onClick={this.displayCategory}&gt;
+                    {this.props.category.items.length}
+                &lt;/div&gt;
+                &lt;div className=&quot;ui text&quot;
+                     onClick={this.displayCategory}&gt;
+                    {this.props.category.name}
+                &lt;/div&gt;
+                &lt;ModalPageGeneric category={this.props.category}
+                                  isVisible={this.state.isEditModalVisible}
+                                  switchModalVisibility={this.switchEditModalVisibility}
+                                  editCategory={this.props.editCategory}
+                                  reactComponent={this.EditReactElement}
+                /&gt;
+                &lt;ModalPageGeneric category={this.props.category}
+                                  isVisible={this.state.isDeleteModalVisible}
+                                  switchModalVisibility={this.switchDeleteModalVisibility}
+                                  deleteCategory={this.props.deleteCategory}
+                                  reactComponent={this.DeleteReactElement}
+                /&gt;
+           &lt;/a&gt;
+        );
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

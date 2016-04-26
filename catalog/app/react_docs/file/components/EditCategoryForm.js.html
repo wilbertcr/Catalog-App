@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/EditCategoryForm.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/EditCategoryForm.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import ReactDOM from &apos;react-dom&apos;;
+import Component from &apos;./Component&apos;;
+var bleach = require(&apos;bleach&apos;);
+
+/**
+ * Wrapper around Semantic-ui&apos;s &quot;ui form&quot;. May be I should just call it Form.
+ * @class EditCategoryForm
+ * */
+export default class EditCategoryForm extends Component {
+
+    /**
+     * @constructs EditCategoryForm
+     * @param {Object} props - Object passed down to us from our parent..
+     * @param {Object} props.category - See {@link Category#constructor}
+     * @param {Object} props.editCategory - See {@link CatalogApp#editCategory}
+     * @param {Object} props.switchModalVisibility - See {@link Category#switchModalVisibility}
+     * */
+    constructor(props) {
+        super(props);
+        /** @member {Object} A State object composed of the state variables
+         * @property {Object} state.category - The category being edited.
+         * @property {string} state.name - The name of the category
+         * @property {boolean} state.validated - True if the form is validated, false otherwise.
+         * @property {number} state.stage - 0(Editing) 1(Confirming)
+         * @property {boolean} state.isInputEnabled - If true, inputs are enabled. If false, inputs are disabled.
+         * */
+        this.state = {
+            category: this.props.category,
+            name: this.props.category.name,
+            validated: true,
+            stage: 0,
+            isInputEnabled: true
+        }
+    }
+
+    /**
+     * Moves form from editing(0) stage to confirmation(1) stage.
+     * Input is disabled at the same time.
+     * */
+    advanceStage(){
+        this.setState({
+            ...this.state,
+            stage: this.state.stage+1,
+            isInputEnabled: false
+        });
+    }
+
+    /**
+     * Moves form from confirmation(1) stage to editing(0) stage.
+     * Input is (re)enabled
+     * */
+    goBack(){
+        this.setState({
+            ...this.state,
+            stage: this.state.stage-1,
+            isInputEnabled: true
+        });
+    }
+
+    /**
+     * Returns true if at least one field has changed
+     * or a new picture has been dropped.
+     * */
+    hasChanged(){
+        return  this.props.category.name !== this.state.name;
+    }
+
+    /**
+     * Fired by the onChange event in the &quot;Name&quot; input field.
+     * */
+    updateName(){
+        //First we sanitize the input.
+        var name = bleach.sanitize(this.textInput.value);
+        //Then we update the state.
+        this.setState({...this.state,
+            //Update the value of the field.
+            name: name,
+            //The form is validated if the name field is not empty.
+            validated: !(name===&quot;&quot;)
+        });
+    }
+
+    /**
+     * Ships category for editing.
+     * */
+    editCategory(){
+        if(this.state.validated){
+            //If the category is validated.
+            if(this.hasChanged()){
+                //And the content has changed.
+
+                //We change the name
+                this.setState({
+                    stage: 0,
+                    category: {...category,name: this.state.name}
+                });
+                //Then ship to the function that will ship it down the wire.
+                this.props.editCategory(this.state.category);
+            }
+            //I&apos;ll close the modal either way.
+            this.props.switchModalVisibility();
+        } else {
+            console.error(&quot;EditCagetoryForm.js - Line 96: This shouldn&apos;t be called when data is invalid.&quot;);
+        }
+    }
+
+    /**
+     * Reset the fields in the form to their original state.
+     * */
+    resetFields(){
+        this.setState({
+            ...this.state,
+            stage: 0,
+            category: this.props.category,
+            name: this.props.category.name,
+            isInputEnabled: true
+        });
+    }
+
+    /**
+     * Resets form and calls {@link Category#switchEditModalVisibility}
+     * */
+    switchModalVisibility(){
+        this.resetFields();
+        //Somewhere up the chain, someone is in charged of closing it. The form doesn&apos;t know the details of that.
+        this.props.switchModalVisibility();
+    }
+
+    render() {
+        var formClasses;
+        var buttons;
+        if(this.state.stage===0 &amp;&amp; this.state.validated){
+            /**
+             * If we&apos;re editing and content is validated
+             * Then we want a regular form.
+             */
+            formClasses = &apos;ui form&apos;;
+            //And we display the &quot;Back&quot; and &quot;Next&quot; Buttons.
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui basic blue button&quot;
+                     onClick={this.switchModalVisibility}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui basic green button&quot;
+                     onClick={this.advanceStage}&gt;
+                    Next&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+        if(this.state.stage===0 &amp;&amp; !this.state.validated){
+            //If we&apos;re editing and some or all of the content isn&apos;t valid.
+            //then show an error and disable the button.
+            formClasses = &apos;ui small form error&apos;;
+            //And we disable the buttons, so the user cannot move forward.
+            //(user can always close the form or click on the modal to get out of here).
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui disabled basic blue button&quot;
+                     onClick={this.switchModalVisibility}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui disabled basic green button&quot;
+                     onClick={this.advanceStage}&gt;
+                    Next&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+        if(this.state.stage===1 &amp;&amp; this.state.validated){
+            //If we are done editing.
+            //We want to show a success message.
+            formClasses = &apos;ui small form success&apos;;
+            //We want to ask the user to confirm via a semantic-ui &quot;success&quot; message.
+            buttons = &lt;div className=&quot;ui buttons&quot;&gt;
+                &lt;div className=&quot;ui basic blue button&quot;
+                     onClick={this.goBack}&gt;
+                    &lt;i className=&quot;chevron circle left icon&quot;&gt;&lt;/i&gt;Back
+                &lt;/div&gt;
+                &lt;div className=&quot;ui basic green button&quot;
+                     onClick={this.editCategory}&gt;
+                    Send&lt;i className=&quot;chevron circle right icon&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;;
+        }
+
+        return (
+            &lt;div className=&quot;ui item&quot;&gt;
+                &lt;i className=&quot;right floated big remove circle icon&quot; onClick={this.switchModalVisibility}&gt;&lt;/i&gt;
+                &lt;div className=&quot;header&quot;&gt;
+                    Edit Category
+                &lt;/div&gt;
+                &lt;div className=&quot;image content&quot;&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;content&quot;&gt;
+                    &lt;div className={formClasses}&gt;
+                        &lt;div className=&quot;one field&quot;&gt;
+                            &lt;div className=&quot;required field&quot;&gt;
+                                &lt;label&gt;Category&lt;/label&gt;
+                                &lt;input type=&quot;text&quot;
+                                       value={this.state.name}
+                                       ref={
+                                        (ref) =&gt; {
+                                            this.textInput=ref;
+                                            if(this.textInput!==null){
+                                                this.textInput.focus();
+                                            }
+                                        }
+                                       }
+                                       disabled={!this.state.isInputEnabled}
+                                       onChange={this.updateName}/&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;ui error message&quot;&gt;
+                                &lt;div className=&quot;header&quot;&gt;Empty name&lt;/div&gt;
+                                &lt;p&gt;Category must have a nonempty name.&lt;/p&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;ui success message&quot;&gt;
+                                &lt;div className=&quot;header&quot;&gt;
+                                    Please confirm the change.
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        {buttons}
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        );
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+{
+  "coverage": "67.91%",
+  "expectCount": 134,
+  "actualCount": 91,
+  "files": {
+    "components/AddCategoryForm.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        111
+      ]
+    },
+    "components/AddItemForm.js": {
+      "expectCount": 17,
+      "actualCount": 9,
+      "undocumentLines": [
+        218,
+        63,
+        79,
+        71,
+        225,
+        111,
+        86,
+        98
+      ]
+    },
+    "components/Category.js": {
+      "expectCount": 9,
+      "actualCount": 5,
+      "undocumentLines": [
+        38,
+        63,
+        56,
+        49
+      ]
+    },
+    "components/Component.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "components/DeleteCategoryForm.js": {
+      "expectCount": 4,
+      "actualCount": 2,
+      "undocumentLines": [
+        23,
+        33
+      ]
+    },
+    "components/DeleteItemForm.js": {
+      "expectCount": 4,
+      "actualCount": 2,
+      "undocumentLines": [
+        22,
+        32
+      ]
+    },
+    "components/Item.js": {
+      "expectCount": 9,
+      "actualCount": 8,
+      "undocumentLines": [
+        59
+      ]
+    },
+    "components/EditCategoryForm.js": {
+      "expectCount": 11,
+      "actualCount": 10,
+      "undocumentLines": [
+        130
+      ]
+    },
+    "components/EditItemForm.js": {
+      "expectCount": 15,
+      "actualCount": 5,
+      "undocumentLines": [
+        54,
+        151,
+        66,
+        88,
+        78,
+        226,
+        180,
+        135,
+        99,
+        119
+      ]
+    },
+    "components/GoogleAuth2.js": {
+      "expectCount": 10,
+      "actualCount": 8,
+      "undocumentLines": [
+        159,
+        189
+      ]
+    },
+    "components/ItemsContainer.js": {
+      "expectCount": 7,
+      "actualCount": 5,
+      "undocumentLines": [
+        44,
+        40
+      ]
+    },
+    "components/ModalGeneric.js": {
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        41,
+        45
+      ]
+    },
+    "components/ModalPageGeneric.js": {
+      "expectCount": 4,
+      "actualCount": 3,
+      "undocumentLines": [
+        29
+      ]
+    },
+    "components/index.js": {
+      "expectCount": 16,
+      "actualCount": 13,
+      "undocumentLines": [
+        552,
+        556,
+        50
+      ]
+    },
+    "components/Sidebar.js": {
+      "expectCount": 7,
+      "actualCount": 3,
+      "undocumentLines": [
+        49,
+        47,
+        39,
+        32
+      ]
+    },
+    "components/apiCall.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    }
+  }
+}

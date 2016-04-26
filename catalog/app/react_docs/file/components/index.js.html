@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/index.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import ReactDOM from &apos;react-dom&apos;;
+import Component from &apos;./Component&apos;;
+import GoogleAuth2 from &apos;./GoogleAuth2&apos;
+import Sidebar from &apos;./Sidebar&apos;
+import ItemsContainer from &apos;./ItemsContainer&apos;
+import apiCall from &apos;./apiCall&apos;
+
+
+/**
+ * Main container. This is the root of the application and where most of the state is kept and changed.
+ * @class Root
+ * */
+export default class Root extends Component {
+
+    /**
+     * @constructs CatalogApp
+     * @param {Object} props - Object passed down to us from our parent..
+     * */
+    constructor(props){
+        super(props);
+        /**
+         *Represents login status
+         * @type {Object}
+         * @property {{value: true, name: &quot;LoggedIn&quot;}} STATUS.LoggedIn - User is logged in.
+         * @property {{value: false, name: &quot;LoggedOut&quot;}} STATUS.LoggedOut - User is logged out.
+         * */
+        this.STATUS = {
+            LoggedIn : {value: true, name: &quot;LoggedIn&quot;},
+            LoggedOut : {value: false, name: &quot;LoggedOut&quot;}
+        };
+        /**
+         *Represents the current state.
+         * @type {Object}
+         * @property {Object[]} state.categories - The categories available.
+         * @property {Object[]} state.items - The items currently in display..
+         * @property {STATUS} state.login_status - The current login status.
+         * @property {number} state.categoryId - The categoryId for which items are in display.
+         * */
+        this.state = {
+            categories: [],
+            items: [],
+            loginStatus: this.STATUS.LoggedOut,
+            categoryId: 0,
+            nonce: $(&apos;#root&apos;).data(&quot;state&quot;)
+        };
+    }
+
+
+    updateNonce(nonce){
+        this.setState({...this.state, nonce: nonce});
+    }
+
+
+    /**
+     * Listener triggered by GoogleAuth2 when a change in login state occurs.
+     * @param {STATUS} state - The current login status.
+     * */
+    onSessionChange(state){
+        //Let&apos;s set the state accordingly.
+        this.setState({...this.state,
+            loginStatus: state.value ? this.STATUS.LoggedIn : this.STATUS.LoggedOut});
+    }
+
+    /**
+     * Sets state such that the objects in the category passed in are displayed.
+     * @param {integer} id - category id of the category we want to display.
+     * */
+    displayCategory(id){
+        var index;
+        /**
+         * We need the category&apos;s index in the categories array.
+         * */
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(id===this.state.categories[i].id){
+                index = i;
+                break;
+            }
+        }
+        //Get the category.
+        var category = this.state.categories[index];
+        //Get the items in it.
+        var items = category.items;
+        //Set the state accordingly.
+        this.setState({
+            ...this.state,
+            items: items,
+            categoryId: id
+        });
+    }
+
+
+    /**
+     * Appends the category to the list of categories.
+     * @param {string} name - name of the category we wish to append.
+     * */
+    addCategory(name){
+        var newCategory = {
+            id: 0,
+            name: name,
+            picture: &quot;&quot;,
+            items: []
+        };
+        //Get the current categories array.
+        var categories = this.state.categories;
+        //Create a new one that includes the new category.
+        var newCategories = [...categories,newCategory];
+        var index = newCategories.length-1;
+        var prevState = {...this.state};
+        var nextState = {...this.state,categories: newCategories};
+        //We&apos;re changing the state optimistically, without even having
+        //sent the request to the server.
+        this.setState(nextState);
+        /**
+         *We&apos;re sending the new category to the backend for processing.
+         * */
+        var endpoint = &quot;/categories/new?state=&quot;;
+        apiCall({
+            url: endpoint+this.state.nonce,
+            dataType: &apos;json&apos;,
+            type: &apos;POST&apos;,
+            data: newCategory,
+            success: function(data) {
+                /**
+                 * The backend is going to send us the updated category
+                 * object, with the assigned id.
+                 * */
+                //We need to extract the id.
+                newCategory.id = data.category.id;
+                //And update the state so sync up with the server.
+                //This is also important because if we didn&apos;t do it,
+                //the user couldn&apos;t add more categories until reload
+                //since we would end up with multiple categories that
+                //have id zero, which is an issue for react.
+                var nextState = {
+                    ...this.state,
+                    categories : [
+                        ...categories,
+                        newCategory
+                    ]
+                };
+                this.setState(nextState);
+            }.bind(this),
+            error: function(xhr,status,err){
+                //If we get an error, then we rollback the changes by
+                //returning to the previous state.
+                this.setState(prevState);
+                //And let the developer know.
+                console.error(endpoint,status,err.toString());
+            }.bind(this)
+        },this);
+    }
+
+
+    /**
+     * Updates category to match the one passed in.
+     * @param {Object} newCategory - category we wish to edit.
+     * */
+    editCategory(newCategory){
+        var index;
+        /**
+         * We need the category&apos;s index in the categories array.
+         * */
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(newCategory.id===this.state.categories[i].id){
+                index = i;
+                break;
+            }
+        }
+        /**
+         * Let&apos;s keep the previous state, in case something goes wrong.
+         * */
+        var prevState = {...this.state};
+        /**
+         * This is the state we wish to move to, but we need confirmation that
+         * it is consistent with the DB before we can set this in stone.
+         * */
+        var nextState = {
+            ...this.state,
+            categories : [
+                ...this.state.categories.slice(0,index),
+                newCategory,
+                ...this.state.categories.slice(index+1)
+            ]
+        };
+        /**
+         * We&apos;re going to be optimistic, and change the state before contating the
+         * backend.
+         * */
+        this.setState(nextState);
+
+        /**
+         *We&apos;re sending the edited category to the backend for processing.
+         * */
+        var endpoint = &quot;/categories/edit/&quot;+newCategory.id+&quot;?state=&quot;;
+        apiCall({
+            url: endpoint+this.state.nonce,
+            dataType: &apos;json&apos;,
+            type: &apos;POST&apos;,
+            data: newCategory,
+            //If things go wrong, we just go back to the previous state :)
+            error: function(xhr,status,err){
+                this.setState(prevState);
+                console.error(endpoint,status,err.toString());
+            }.bind(this)
+        },this);
+    }
+
+
+    /**
+     * deletes category with id equal to the one passed in.
+     * @param {integer} id - categoryId of the category we wish to delete.
+     * */
+    deleteCategory(id){
+        var index;
+        /**
+         * We need the category&apos;s index in the categories array.
+         * */
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(id===this.state.categories[i].id){
+                index = i;
+                break;
+            }
+        }
+        /**
+         * Let&apos;s keep the previous state, in case something goes wrong.
+         * */
+        var prevState = {...this.state};
+        /**
+         * This is the state we wish to move to, but we need confirmation that
+         * it is consistent with the DB before we can set this in stone.
+         * */
+        var nextState = {
+            ...this.state,
+            categories : [
+                ...this.state.categories.slice(0,index),
+                ...this.state.categories.slice(index+1)
+            ]
+        };
+        /**
+         * Unless this category&apos;s items are being displayed right now, if that&apos;s the case
+         * then we want them to disappear since their parent category is being deleted.
+         * */
+        if(id===this.state.categoryId){
+            nextState = {
+                ...nextState,
+                items:[],
+                categoryId:0
+            }
+        }
+        /**
+         * We&apos;re going to be optimistic, and change the state before contating the
+         * backend.
+         * */
+        this.setState(nextState);
+        /**
+         *We&apos;re sending the request to the backend..
+         * */
+        var endpoint = &quot;/categories/delete/&quot;+id+&quot;?state=&quot;;
+        apiCall({
+            url: endpoint+this.state.nonce,
+            dataType: &apos;json&apos;,
+            type: &apos;DELETE&apos;,
+            error: function(xhr,status,err){
+                this.setState(prevState);
+                console.error(endpoint,status,err.toString());
+            }.bind(this)
+        },this);
+
+    }
+
+    /**
+     * Adds item to the currently displayed category.
+     * @param {Object} item - The item that will be added.
+     * @property {number} item.categoryId - Category id
+     * @property {number} item.id - Item id
+     * @property {string} state.picture - The path to the item&apos;s picture
+     * @property {string} state.name - The item&apos;s name.
+     * @property {string} state.price - The item&apos;s price.
+     * @property {boolean} state.isDescriptionValid
+     * @property {Object} state.file - A File object
+     * @property {boolean} state.newPictureMounted
+     * */
+    addItem(item){
+        //Let&apos;s figure out the index of this item&apos;s category.
+        var catIndex;
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(item.categoryId===this.state.categories[i].id){
+                catIndex=i;
+                break;
+            }
+        }
+
+        //Let&apos;s store the current state and create a
+        //new one.
+        var prevCategories = this.state.categories;
+        var nextCategories = [...this.state.categories];
+        var prevItems =  prevCategories[catIndex].items;
+        var nextItems = [...prevCategories[catIndex].items,item];
+
+        let file = item.file;
+        var fd = new FormData();
+        fd.append(&quot;picture_file&quot;, file);
+        var filePath = &quot;/static/images/&quot;+file.name;
+
+        var url1 = filePath+&quot;?state=&quot;;
+        apiCall({
+            url: url1+this.state.nonce,
+            type: &apos;POST&apos;,
+            data: fd,
+            contentType: false,
+            processData: false,
+            error: function (xhr, status, err) {
+                //And communicate the error.
+                //Something production ready would do
+                //something to the UI to make the user aware of this.
+                console.error(&quot;Error uploading picture.&quot;);
+                console.error(xhr, status, err.toString());
+            }.bind(this)
+        },this).then(function(){
+            //File is in the server now, so we can update the picture.
+            //The form in the backend gets confused if there&apos;s a
+            // file so let&apos;s clear it.
+            nextItems[nextItems.length-1].file = &quot;&quot;;
+            //Items are inside categories, so I need to update them
+            //also if I want them to be up to date.
+            nextCategories[catIndex].items = nextItems;
+            this.setState({
+                categories: nextCategories,
+                items: nextCategories[catIndex].items}
+            );
+            var url2 = &quot;/items/add?state=&quot;;
+            apiCall({
+                url: url2+this.state.nonce,
+                dataType: &apos;json&apos;,
+                type: &apos;POST&apos;,
+                data: nextItems[nextItems.length-1],
+                success: function(data){
+                    nextItems[nextItems.length-1].id = data.id
+                    nextCategories[catIndex].items = nextItems;
+                    this.setState({
+                        categories: nextCategories,
+                        items: nextCategories[catIndex].items}
+                    );
+                }.bind(this),
+                error: function(xhr,status,err){
+                    //If things go bad, we go back to
+                    //the previous state.
+                    prevCategories[catIndex].items = prevItems;
+                    this.setState({...this.state,
+                        categories: prevCategories,
+                        items: prevItems}
+                    );
+                }.bind(this)
+            },this);
+        }.bind(this));
+    }
+
+
+    /**
+     * Edits item
+     * @param {Object} item - The item that will be added.
+     * @property {number} item.categoryId - Category id
+     * @property {number} item.id - Item id
+     * @property {string} state.picture - The path to the item&apos;s picture
+     * @property {string} state.name - The item&apos;s name.
+     * @property {string} state.price - The item&apos;s price.
+     * @property {boolean} state.isDescriptionValid
+     * @property {Object} state.file - A File object
+     * @property {boolean} state.newPictureMounted
+     * */
+    editItem(item){
+        var catIndex;
+        var itemIndex;
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(item.categoryId===this.state.categories[i].id){
+                catIndex=i;
+                var prevCategory = this.state.categories[i];
+                for(let j=0;j&lt;prevCategory.items.length;j++){
+                    if(item.id===prevCategory.items[j].id){
+                        itemIndex = j;
+                    }
+                }
+            }
+        }
+        var prevCategories = this.state.categories;
+        var nextCategories = [...this.state.categories];
+        var prevItem =  nextCategories[catIndex].items[itemIndex];
+        var nextItem = {...nextCategories[catIndex].items[itemIndex]};
+        nextItem.picture = item.picture;
+        nextItem.name = item.name;
+        nextItem.description = item.description;
+        nextItem.price = item.price;
+        nextItem.file = item.file;
+
+        /**
+         * Does the item contains a new picture? Or just changes
+         * to the text?
+         * */
+        if(item.newPicture){
+            /**
+             * If the item does contain a new picture.
+             * */
+            //We&apos;re gong to extract the file.
+            let file = nextItem.file;
+            var fd = new FormData();
+            fd.append(&quot;picture_file&quot;, file);
+            var filePath = &quot;/static/images/&quot;+file.name;
+            var url1 = filePath+&quot;?state=&quot;;
+            apiCall({
+                url: url1+this.state.nonce,
+                type: &apos;POST&apos;,
+                data: fd,
+                contentType: false,
+                processData: false,
+                error: function (xhr, status, err) {
+                    //If something goes wrong.
+                    // Let&apos;s go back to the previous state.
+                    this.setState({
+                        categories: prevCategories,
+                        items: prevCategories[catIndex].items}
+                    );
+                    //And communicate the error.
+                    //Something production ready would do
+                    //something to the UI to make the user aware of this.
+                    console.error(&quot;Error uploading picture.&quot;);
+                    console.error(xhr, status, err.toString());
+                }.bind(this)
+            },this).then(function(){
+                //File is in the server now, so we can update the picture.
+                nextItem.file = &quot;&quot;;
+                nextCategories[catIndex].items[itemIndex] = nextItem;
+                this.setState({
+                    categories: nextCategories,
+                    items: nextCategories[catIndex].items}
+                );
+                var url2 = &quot;/items/edit/&quot;+item.id+&quot;?state=&quot;;
+                apiCall({
+                    url: url2+this.state.nonce,
+                    dataType: &apos;json&apos;,
+                    type: &apos;POST&apos;,
+                    data: nextItem,
+                    error: function(xhr,status,err){
+                        //If things go bad, we go back to
+                        //the previous state.
+                        prevCategories[catIndex].items[itemIndex] = prevItem;
+                        this.setState({...this.state,
+                            categories: prevCategories,
+                            items:prevCategories[catIndex].items}
+                        );
+                    }.bind(this)
+                },this);
+            }.bind(this));
+        } else {
+            //If it is just changes to the text
+            //Let&apos;s be optimistic and update the item.
+            nextCategories[catIndex].items[itemIndex] = nextItem;
+            this.setState({
+                categories: nextCategories,
+                items: nextCategories[catIndex].items}
+            );
+            var url2 = &quot;/items/edit/&quot;+item.id+&quot;?state=&quot;;
+            apiCall({
+                url: url2+this.state.nonce,
+                dataType: &apos;json&apos;,
+                type: &apos;POST&apos;,
+                data: item,
+                error: function(xhr,status,err){
+                    //If things go bad, we go back to
+                    //the previous state.
+                    prevCategories[catIndex].items[itemIndex] = prevItem;
+                    this.setState({...this.state,
+                        categories: prevCategories,
+                        items:prevCategories[catIndex].items}
+                    );
+                }.bind(this)
+            },this);
+        }
+    }
+
+    /**
+     * Deletes an item
+     * @param {number} id - The id of the item to be deleted.
+     * */
+    deleteItem(id){
+        var catIndex;
+        var itemIndex;
+        for(let i=0;i&lt;this.state.categories.length;i++){
+            if(this.state.categoryId===this.state.categories[i].id){
+                catIndex=i;
+                for(let j=0;j&lt;this.state.categories[catIndex].items.length;j++){
+                    if(id===this.state.categories[catIndex].items[j].id){
+                        itemIndex = j;
+                        break;
+                   }
+                }
+                break;
+            }
+        }
+        //Let&apos;s store the current state and create a
+        //the next one.
+        var prevCategories = this.state.categories;
+        var prevItems =  [...prevCategories[catIndex].items];
+        var nextCategories = [...this.state.categories];
+        var nextItems =  [...prevItems];
+        nextItems.splice(itemIndex,1);
+        nextCategories[catIndex].items = nextItems;
+        var nextState = {...this.state,
+            categories: nextCategories,
+            items: nextCategories[catIndex].items
+        };
+        //Let&apos;s set the new state optimistically.
+        this.setState(nextState);
+        var endpoint = &quot;/items/delete/&quot;+id+&quot;?state=&quot;;
+        apiCall({
+            url: endpoint+this.state.nonce,
+            dataType:&apos;json&apos;,
+            type: &apos;DELETE&apos;,
+            data: [],
+            cache: false,
+            error: function(xhr, status, err){
+                prevCategories[catIndex].items = prevItems;
+                this.setState({
+                    ...this.state,
+                    categories: prevCategories,
+                    items: prevItems
+                });
+                console.error(xhr, status, err.toString());
+            }.bind(this)
+        },this);
+    }
+
+
+    /**
+     * Loads categories from server.
+     * */
+    loadCategories(){
+        apiCall({
+            url: &apos;/categories/json?state=&apos;+this.state.nonce,
+            dataType:&apos;json&apos;,
+            cache: false,
+            success: function(data){
+                this.setState({categories: data.categories});
+            }.bind(this),
+            error: function(xhr, status, err){
+                console.error(this.state.restaurantListURL, status, err.toString());
+            }.bind(this)
+        },this);
+    }
+
+
+    componentDidMount(){
+        this.loadCategories();
+    }
+
+    render(){
+        return(
+            &lt;div&gt;
+                &lt;GoogleAuth2 onSessionChange={this.onSessionChange}
+                             nonce={this.state.nonce}
+                             updateNonce={this.updateNonce}/&gt;
+                &lt;div className=&quot;root_container ui stackable padded grid&quot;
+                     style={this.state.loginStatus.value ? {paddingTop: &apos;54px&apos;}: {} }&gt;
+                    &lt;div className=&quot;row&quot;&gt;
+                        &lt;div className=&quot;left floated left two wide column&quot;&gt;
+                            &lt;Sidebar categories={this.state.categories}
+                                     loginStatus={this.state.loginStatus}
+                                     displayCategory={this.displayCategory}
+                                     deleteCategory={this.deleteCategory}
+                                     addCategory={this.addCategory}
+                                     editCategory={this.editCategory}/&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;left floated left aligned thirteen wide column&quot;&gt;
+                            &lt;ItemsContainer items={this.state.items}
+                                            loginStatus={this.state.loginStatus}
+                                            categoryId={this.state.categoryId}
+                                            addItem={this.addItem}
+                                            editItem={this.editItem}
+                                            deleteItem={this.deleteItem}/&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        );
+    }
+}
+
+$( document ).ready(function() {
+    ReactDOM.render(
+        &lt;Root/&gt;,
+        document.getElementById(&quot;root&quot;)
+    );
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

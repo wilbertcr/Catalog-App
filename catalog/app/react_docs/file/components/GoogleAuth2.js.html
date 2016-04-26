@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">components/GoogleAuth2.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddCategoryForm.js~AddCategoryForm.html">AddCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/AddItemForm.js~AddItemForm.html">AddItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Category.js~Category.html">Category</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteCategoryForm.js~DeleteCategoryForm.html">DeleteCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/DeleteItemForm.js~DeleteItemForm.html">DeleteItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditCategoryForm.js~EditCategoryForm.html">EditCategoryForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/EditItemForm.js~EditItemForm.html">EditItemForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/GoogleAuth2.js~GoogleAuth2.html">GoogleAuth2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Item.js~Item.html">Item</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ItemsContainer.js~ItemsContainer.html">ItemsContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalGeneric.js~ModalGeneric.html">ModalGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/ModalPageGeneric.js~ModalPageGeneric.html">ModalPageGeneric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/Sidebar.js~Sidebar.html">Sidebar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/components/index.js~Root.html">Root</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-apiCall">apiCall</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">components/GoogleAuth2.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import Component from &apos;./Component&apos;;
+import apiCall from &apos;./apiCall&apos;;
+
+/**
+ * googleAuth2  Sign in/Sign out Button.
+ * @class GoogleAuth2
+ * */
+export default class GoogleAuth2 extends Component {
+    /**
+     * @constructs GoogleAuth2
+     * @param {Object} props - Object passed down to us from our parent.
+     * @param {Object} props.onSessionChange - See {@link CatalogApp#onSessionChange}
+     * @param {string} props.nonce - See {@link CatalogApp#state}
+     * @param {Object} props.updateNonce - See {@link CatalogApp#updateNonce}
+     * */
+    constructor(props) {
+        super(props);
+        /**
+         *Represents login status
+         * @type {Object}
+         * @property {{value: true, name: &quot;LoggedIn&quot;}} STATUS.LoggedIn - User is logged in.
+         * @property {{value: false, name: &quot;LoggedOut&quot;}} STATUS.LoggedOut - User is logged out.
+         * */
+        this.STATUS = {
+            LoggedIn : {value: true, name: &quot;LoggedIn&quot;},
+            LoggedOut : {value: false, name: &quot;LoggedOut&quot;}
+        }
+        /**
+         *Represents the current state.
+         * @type {Object}
+         * @property {string} state.nonce - The current nonce value.
+         * @property {STATUS} state.login_status - The current login status.
+         * @property {integer} state.userId - The id received from google.
+         * @property {string} state.userName
+         * @property {string} state.userEmail
+         * @property {string} state.userPicture
+         * */
+        this.state = {
+            loginStatus: this.STATUS.LoggedOut,
+            userId: 0,
+            userName: &quot;&quot;,
+            userEmail: &quot;&quot;,
+            userPicture: null
+        }
+    }
+
+    /**
+     * Listener triggered when a change in the user&apos;s login status occurs.
+     * @param {boolean} loginState - loginState is true when the state just switched from logged out to logged in and false otherwise.
+     * */
+    onSessionChange(loginState){
+        if(loginState){
+            //There&apos;s a user logged in.
+            var googleAuth = gapi.auth2.getAuthInstance();
+            var googleUser = googleAuth.currentUser.get();
+            //Now we ask google to give our backend access.
+            //grantOfflineAccess makes a promise that
+            //gets fulfilled in the &quot;then&quot; and provides us
+            //with an authorization response.
+            googleAuth.grantOfflineAccess({
+                &apos;redirect_uri&apos;:&apos;postmessage&apos;
+            }).then(function(authResponse){
+                //There should be a &apos;code&apos; in authResponse.
+                //we need to send it to the back end.
+                if (authResponse[&apos;code&apos;]){
+                    apiCall({
+                            url: &quot;/gconnect?state=&quot;+this.props.nonce,
+                            type: &apos;POST&apos;,
+                            data: authResponse[&apos;code&apos;],
+                            processData: false,
+                            //We&apos;re going to ship that authorization response&apos;s code
+                            //to the backend.
+                            contentType: &apos;application/octet-stream; charset=utf-8&apos;,
+                            success: function (result) {
+                                //If the backend can verify it, or if the
+                                //user is already logged in, we&apos;ll get
+                                //a result
+                                if(result){
+                                    var userProfile = googleUser.getBasicProfile();
+                                    this.setState({...this.state,
+                                        loginStatus: this.STATUS.LoggedIn,
+                                        userPicture : userProfile.getImageUrl(),
+                                        userEmail: userProfile.getEmail(),
+                                        userName: userProfile.getName(),
+                                        userId: userProfile.getId(),
+                                    });
+                                    this.props.onSessionChange(this.state.loginStatus);
+                                }
+                            }.bind(this),
+                            error: function (xhr, status, err) {
+                                console.error(&quot;Error signing in user.&quot;);
+                                console.error(xhr, status, err.toString());
+                            }.bind(this)
+                    },this);
+                }
+            }.bind(this));
+        } else {
+            this.setState({...this.state,loginStatus: this.STATUS.LoggedOut});
+            this.props.onSessionChange(this.state.loginStatus);
+        }
+    }
+
+    /**This function is required by google, but I don&apos;t need it since I&apos;m already
+     * listening to the changes in the session status. Hence it is empty.
+     * */
+    signInSuccess(googleUser){
+        //We&apos;re going to let the signin listener deal with this.
+    }
+
+    /**
+     * Not much to do if things go wrong with google. I&apos;m not implementing a back up login system.
+     * */
+    signInFailure(reason){
+        console.error(&quot;Failed to sign in with google.&quot;);
+        console.error(reason);
+    }
+
+    /**
+     * This function is called when the sign out button is pressed by the user.
+     *
+     * */
+    signOut(){
+        //In production, we wouldn&apos;t revoke all permits
+        //when a user signs out, however we don&apos;t want
+        //to let random apps like this with privileges
+        //lying around. Hence, we will revoke all permits
+        //whenever a user signs out.
+        apiCall({
+                url: &apos;/gdisconnect?state=&apos;+this.props.nonce,
+                type: &apos;GET&apos;,
+                data: [],
+                processData: false,
+                //We&apos;re going to ship that authorization response&apos;s code
+                //to the backend.
+                success: function(result) {
+                    //We have successfully disconnected the user
+                    //from the app in the back end.
+                    //Now let&apos;s get a pointer to google Auth2 Instance.
+                    var googleAuth = gapi.auth2.getAuthInstance();
+                    //And use it to sign out the front end as well.
+                    //Note that I don&apos;t change the state here, instead
+                    //I let the listener I setup earlier take care of updating the state.
+                    googleAuth.signOut();
+                    this.setState({...this.state,
+                        userPicture : &quot;&quot;,
+                        userEmail: &quot;&quot;,
+                        userName: &quot;&quot;
+                    });
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.error(xhr);
+                    console.error(status);
+                    console.error(err.toString());
+                }.bind(this)
+            },this);
+    }
+
+    componentDidMount() {
+        //Let&apos;s get the google api&apos;s JS SDK
+        $.getScript(&apos;https://apis.google.com/js/platform.js&apos;,
+            function(){
+                var initSignInV2 = function(){
+                    //Initialize googleAuth2
+                    var googleAuth = gapi.auth2.init({
+                        &apos;client_id&apos;: &apos;487962395938-f923dbtpisv3oq7tivlvu4127g1jlh9m.apps.googleusercontent.com&apos;,
+                        &apos;cookie_policy&apos;: &apos;single_host_origin&apos;,
+                        &apos;scope&apos;:&apos;openid email&apos;
+                    });
+                    googleAuth.isSignedIn.listen(this.onSessionChange);
+                    //Attach click handler to the sign in button.
+                    googleAuth.attachClickHandler(
+                        &apos;signInButton&apos;,
+                        {&apos;scope&apos;: &apos;openid email&apos;,
+                            &apos;redirect-uri&apos;:&apos;postmessage&apos;,
+                            &apos;accesstype&apos;: &apos;offline&apos;
+                        },
+                        this.signInSuccess,
+                        this.signInFailure
+                    );
+                }.bind(this);
+                //Now we load auth2 and use initSignInV2 as call back,
+                //that way we make sure it is called after auth2 has loaded.
+                gapi.load(&apos;auth2&apos;, initSignInV2);
+            }.bind(this)
+        );
+    }
+
+    render() {
+        /**
+         * @todo Implement this without using JQuery.
+         * */
+        $(&apos;.ui.dropdown&apos;).dropdown();
+        return (
+            &lt;div className=&quot;ui blue top fixed inverted menu&quot;
+                 style={this.state.loginStatus.value ? {height: &apos;54px&apos;}: {} }&gt;
+                &lt;div className=&quot;right menu&quot;&gt;
+                    &lt;a className=&quot;ui item&quot;&gt;
+                        &lt;div id=&quot;signInButton&quot;
+                             className=&quot;ui google plus button&quot;
+                             style={{display: this.state.loginStatus.value ? &apos;none&apos; : &apos;inline-block&apos;}}&gt;
+                            &lt;i className=&quot;google plus icon&quot;&gt;&lt;/i&gt;
+                            Sign in.
+                        &lt;/div&gt;
+                        &lt;div className=&quot;ui dropdown&quot;
+                             style={{display: this.state.loginStatus.value ? &apos;inline-block&apos; : &apos;none&apos;}}&gt;
+                            &lt;img className=&quot;ui avatar image dropdown&quot;
+                                 src={this.state.userPicture}&gt;
+                            &lt;/img&gt;
+                            &lt;div className=&quot;ui inverted menu&quot;&gt;
+                                &lt;div className=&quot;ui item&quot;&gt;
+                                    &lt;div className=&quot;ui red card&quot;&gt;
+                                        &lt;div className=&quot;image&quot;&gt;
+                                            &lt;img src={this.state.userPicture}&gt;
+                                            &lt;/img&gt;
+                                        &lt;/div&gt;
+                                        &lt;div className=&quot;content&quot;&gt;
+                                            &lt;div className=&quot;header&quot;&gt;
+                                                {this.state.userName}
+                                            &lt;/div&gt;
+                                            &lt;div className=&quot;meta&quot;&gt;
+                                                {this.state.userEmail}
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                        &lt;div className=&quot;extra content&quot;&gt;
+                                            &lt;div className=&quot;ui one white button&quot;&gt;
+                                                &lt;div id=&quot;signOutButton&quot;
+                                                     className=&quot;ui google plus button&quot;
+                                                     onClick={this.signOut}
+                                                     style={{display: this.state.loginStatus.value ? &apos;inline-block&apos; : &apos;none&apos;}}&gt;
+                                                    &lt;i className=&quot;google plus icon&quot;&gt;&lt;/i&gt;
+                                                    Sign out.
+                                                &lt;/div&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        );
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
