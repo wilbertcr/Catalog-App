@@ -45,6 +45,7 @@ class Config(object):
     SECRET_PATH = secrets_path
     UPLOAD_FOLDER = BASE_DIR + "/app/static/images"
     STATIC_FOLDER = BASE_DIR + "/app/static"
+    TEMPLATES_FOLDER = BASE_DIR + "/app/templates"
     SECRET_KEY = CLIENT_ID
     APPLICATION_NAME = "Catalog App"
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
