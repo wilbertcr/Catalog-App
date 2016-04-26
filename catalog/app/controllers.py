@@ -6,7 +6,6 @@ import json
 import os
 import random
 import string
-import sys
 import time
 import httplib2
 import requests
@@ -17,43 +16,22 @@ from flask.ext.autodoc import Autodoc
 from oauth2client.client import AccessTokenCredentials
 from oauth2client.client import FlowExchangeError
 from oauth2client.client import flow_from_clientsecrets
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from werkzeug.utils import secure_filename
 from urlparse import urljoin
 from werkzeug.contrib.atom import AtomFeed
-
-from config.sql_alchemy_setup import Base, User, Category, Item
-
-# Pybuilder needs to know where the root of all packages is so we need to set path to it here.
-# as it picks it up from it.
-sys.path.insert(0, '../')
+from .db.models import User, Category, Item
+from .db.database import db_session
 
 app = Flask(__name__)
 auto = Autodoc(app)
-APPLICATION_NAME = "Catalog App"
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-engine = create_engine('postgresql://vagrant:vagrantvm@localhost:5432/catalog')
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-
-secrets_path = './client_secrets.json'
-CLIENT_ID = json.loads(
-    open(secrets_path, 'r').read()
-)['web']['client_id']
-
 
 @app.route('/')
 @app.route('/index')
 @auto.doc()
 def main_page():
     """
-
     Returns: Code 200 and index.html
-
     """
     state = get_new_state()
     login_session['state'] = state
@@ -92,7 +70,7 @@ def gconnect():
         # Upgrade the authorization code into a credentials object.
         # flow_from_client_secrets(client_secret file_path,scope='')
         # creates a flow object using the client's secret file.
-        oauth_flow = flow_from_clientsecrets(secrets_path, scope='')
+        oauth_flow = flow_from_clientsecrets(app.config['SECRET_PATH'], scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -123,7 +101,7 @@ def gconnect():
         return response
 
     # Verify that the access token is valid for this app.
-    if result['issued_to'] != CLIENT_ID:
+    if result['issued_to'] != app.config['SECRET_KEY']:
         response = make_response(
             json.dumps({'error': 'Token client IDs do not match apps'}), 401
         )
@@ -255,7 +233,7 @@ def categories_json():
         json: categories[]
     """
     try:
-        categories = session.query(Category).all()
+        categories = db_session.query(Category).all()
         return jsonify(categories=[category.serialize for category in categories])
     except Exception as inst:
         print(type(inst))
@@ -273,7 +251,7 @@ def category_json(category_id):
         json: {category: {id: integer, name: string, picture: string, items: json[]}}
     """
     try:
-        category = session.query(Category).filter_by(id=category_id).one()
+        category = db_session.query(Category).filter_by(id=category_id).one()
         return jsonify(category=category.serialize)
     except Exception as inst:
         print(type(inst))
@@ -291,7 +269,7 @@ def item_json(item_id):
         json: {category: {id: integer, name: string, picture: string, items: json[]}}
     """
     try:
-        item = session.query(Item).filter_by(id=item_id).one()
+        item = db_session.query(Item).filter_by(id=item_id).one()
         return jsonify(item=item.serialize)
     except Exception as inst:
         print(type(inst))
@@ -312,7 +290,7 @@ def items_feed():
     """
     feed = AtomFeed('Recent Items',
                     feed_url=request.url, url=request.url_root)
-    items = session.query(Item).order_by(Item.last_updated.desc(), Item.created.desc()).limit(15).all()
+    items = db_session.query(Item).order_by(Item.last_updated.desc(), Item.created.desc()).limit(15).all()
     for item in items:
         feed.add(id=item.id,
                  title=item.name,
@@ -351,15 +329,15 @@ def add_category():
             category.name = request.form['name']
             state = get_new_state()
             login_session['state'] = state
-            session.add(category)
+            db_session.add(category)
             # flush() allows me to see the id that will be
-            # assigned upon comitting the session.
-            session.flush()
+            # assigned upon committing the session.
+            db_session.flush()
             response = make_response(
                 json.dumps({'category': category.serialize, 'nonce': login_session['state']}), 200
             )
             response.headers['Content-Type'] = 'application/json'
-            session.commit()
+            db_session.commit()
             return response
     except Exception as inst:
         print(type(inst))
@@ -391,9 +369,9 @@ def delete_category(category_id):
         return response
     try:
         if request.method == 'DELETE':
-            category = session.query(Category).filter_by(id=category_id).one()
-            session.delete(category)
-            session.commit()
+            category = db_session.query(Category).filter_by(id=category_id).one()
+            db_session.delete(category)
+            db_session.commit()
             state = get_new_state()
             login_session['state'] = state
             response = make_response(
@@ -430,14 +408,14 @@ def edit_category(category_id):
         return response
     try:
         if request.method == 'POST':
-            category = session.query(Category).filter_by(id=category_id).all()
+            category = db_session.query(Category).filter_by(id=category_id).all()
             if len(category) > 0:
                 state = get_new_state()
                 login_session['state'] = state
                 category = category[0]
                 category.name = request.form['name']
-                session.add(category)
-                session.commit()
+                db_session.add(category)
+                db_session.commit()
                 response = make_response(
                     json.dumps({'success': '', 'nonce': login_session['state']}), 200
                 )
@@ -475,13 +453,13 @@ def add_item():
             item.description = request.form['description']
             item.user_id = login_session['user_id']
             # Now let's pull its category.
-            category = session.query(Category).filter_by(id=item.category_id).one()
+            category = db_session.query(Category).filter_by(id=item.category_id).one()
             # And make sure they're properly linked.
             item.category = category
-            session.add(item)
-            session.flush()
+            db_session.add(item)
+            db_session.flush()
             id = item.id
-            session.commit()
+            db_session.commit()
             response = make_response(
                 json.dumps({'success': '', 'nonce': login_session['state'], 'id': id}), 200
             )
@@ -511,14 +489,14 @@ def edit_item(item_id):
         return response
     try:
         if request.method == 'POST':
-            item = session.query(Item).filter_by(id=item_id).one()
+            item = db_session.query(Item).filter_by(id=item_id).one()
             item.picture = request.form['picture']
             item.name = request.form['name']
             item.price = request.form['price']
             item.description = request.form['description']
             item.user_id = login_session['user_id']
-            session.add(item)
-            session.commit()
+            db_session.add(item)
+            db_session.commit()
             response = make_response(
                 json.dumps({'success': '', 'nonce': login_session['state']}), 200
             )
@@ -553,9 +531,9 @@ def delete_item(item_id):
         return response
     try:
         if request.method == 'DELETE':
-            item = session.query(Item).filter_by(id=item_id).one()
-            session.delete(item)
-            session.commit()
+            item = db_session.query(Item).filter_by(id=item_id).one()
+            db_session.delete(item)
+            db_session.commit()
             state = get_new_state()
             login_session['state'] = state
             response = make_response(
@@ -637,7 +615,7 @@ def get_user_id(email):
         int: If successful, it returns the user_id related to the email address received. Otherwise it returns -1
     """
     try:
-        user = session.query(User).filter_by(email=email).one()
+        user = db_session.query(User).filter_by(email=email).one()
         return user.id
     except NoResultFound:
         return -1
@@ -653,7 +631,7 @@ def get_user_info(user_id):
     Returns:
         user(object): A user, containing id, name, email, picture attributes.
     """
-    user = session.query(User).filter_by(id=user_id).one()
+    user = db_session.query(User).filter_by(id=user_id).one()
     return user
 
 
@@ -667,10 +645,10 @@ def create_user():
                     name=login_session['username'],
                     email=login_session['email'],
                     picture=login_session['picture'])
-    session.add(new_user)
-    session.flush()
-    session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
+    db_session.add(new_user)
+    db_session.flush()
+    db_session.commit()
+    user = db_session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
 
@@ -696,9 +674,4 @@ def allowed_file(filename):
         bool: True if the file's extension is allowed, false otherwise.
     """
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-if __name__ == '__main__':
-    app.secret_key = CLIENT_ID
-    app.config['UPLOAD_FOLDER'] = './static/images/'
-    app.run(host='0.0.0.0', port=5000)
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
