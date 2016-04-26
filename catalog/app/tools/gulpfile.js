@@ -26,7 +26,7 @@ gulp.task('transpile',function() {
 gulp.task('doc',function(cb){
     return gulp.src('../components/')
         .pipe(esdoc({
-                "destination":"../docs",
+                "destination":"../react_docs",
                 "plugins":[
                     {"name": "esdoc-es7-plugin"}
                 ],
