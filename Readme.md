@@ -1,6 +1,10 @@
+# Full Stack Web Developer Nanodegree
 
-## Catalog App
+Project: Catalog App
+============================================
 
+Project Description:
+============================================
 * A one page web application displaying categories and the items of the currently selected category. 
 User can add,edit and delete categories and add,edit and delete their respective items.
 * Backend is a flask application
