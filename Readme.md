@@ -109,7 +109,7 @@ To kill the app: CTRL-C
 
 Once the app has been built, you can restart it like this:
 
-`$./run_app.sh`
+`$ python run_app.py`
 
 # Documentation
 
