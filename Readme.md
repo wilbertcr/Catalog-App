@@ -117,20 +117,38 @@ Once the app has been built, you can restart it like this:
 ├── catalog
     ├── run_app.py
     ├── app
-        ├── build_React_app.sh
-        ├── controllers.py
-        ├── install_ReactJS_dev_packages.sh
-        ├── package.json
-        ├── setup_database.sh
-        ├── components/
+        ├── build_React_app.sh # Executes gulp's default task.
+        ├── controllers.py # Holds all the controllers
+        ├── install_ReactJS_dev_packages.sh # Installs all Javascript development dependencies
+        ├── package.json # NPM manifesto.
+        ├── setup_database.sh # Resets and populates Database.
+        ├── components/ # Folder contains all ReactJS components.
         ├── config/
             ├── config.py # Configuration file
         ├── db/
+            ├── database.py # SQLAlchemy setup. 
+            ├── models.py 
+            ├── populate_db.py # Script pre-populates the DB.
+            ├── reset_database.sql # Sets up vagrant user's password, drops the database and recreates it.
+            ├── setup.py # Calls setup_db.sh, initializes SQLAlchemy and Prepopulates DB.
+            ├── setup_db.sh # Executes reset_database.sql
         ├── react_docs
-            ├── index.html
+            ├── index.html # Main and only template.
         ├── static/
+            ├── css
+                ├── semantic.css
+                ├── semantic.min.css
+            ├── images/
+            ├── javascript           
+                ├── preload.bundle.js
+                ├── semantic.js
+                ├── semantic.min.js
         ├── templates/
+            ├── templates/
+                ├── index.html
         ├── tools/
+            ├── gulpfile.js
+            ├── webpack.config.js
 ```
 *Created with esdoc
 
