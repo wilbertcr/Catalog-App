@@ -19,8 +19,10 @@ You will need [Vagrant](http://www.vagrantup.com/)  installed on your computer f
 
 After installing vagrant. Clone the repo and get inside the folder.
 
-`$ git clone https://github.com/wilbertcr/Catalog-App.git`
-`$ cd Catalog-App`
+```
+$ git clone https://github.com/wilbertcr/Catalog-App.git
+$ cd Catalog-App
+```
 
 Run the virtual machine:
 
@@ -111,21 +113,23 @@ You should see something like this:
 
 At this point, the application is running. You can:
 
-* Go to the web application:
+Go to the web application:
 
  `http://localhost:5000`
 
-* Access the atom feed:
+Access the atom feed:
 
 `http://localhost:5000/items_feed`
 
-* Get a json representation of all the categories and their respective items:
+Get a json representation of all the categories and their respective items: 
+
  `http://localhost:5000/categories/json`
  
-* Get a json representation of a category by providing its id:
+Get a json representation of a category by providing its id:
+
  `http://localhost:5000/category/<int:category_id>/json`
 
-* Get a json representation of an item:
+Get a json representation of an item:
 
  `http://localhost:5000/item/<int:item_id>/json`
 
