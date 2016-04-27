@@ -13,21 +13,7 @@ def build_db_uri(options):
            options['dbname']
 
 
-# Statement for enabling the development environment
-DEBUG = True
-
-# Define the application top level directory
 BASE_DIR = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
-
-# Define the database - we are working with
-# SQLite for this example
-DB_CONNECT_OPTIONS = {'dialect': "postgresql",
-                      'driver': "",
-                      'username': "vagrant",
-                      'password': "vagrantvm",
-                      'host': "localhost",
-                      'port': "5432",
-                      'dbname': "catalog"}
 
 # Secret key for signing cookies
 secrets_path = BASE_DIR + '/app/client_secrets.json'
@@ -40,6 +26,18 @@ SECRET_PATH = secrets_path
 
 
 class Config(object):
+    # Define the database - we are working with
+    # SQLite for this example
+    # Define the application top level directory
+    BASE_DIR = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
+    DB_CONNECT_OPTIONS = {'dialect': "postgresql",
+                          'driver': "",
+                          'username': "vagrant",
+                          'password': "vagrantvm",
+                          'host': "localhost",
+                          'port': "5432",
+                          'dbname': "catalog"}
+
     DATABASE_URI = build_db_uri(DB_CONNECT_OPTIONS)
     SECRET_KEY = CLIENT_ID
     SECRET_PATH = secrets_path
@@ -54,7 +52,6 @@ class Config(object):
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = build_db_uri(DB_CONNECT_OPTIONS)
 
 
 class DevelopmentConfig(Config):
