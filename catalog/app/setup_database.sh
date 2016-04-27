@@ -1,3 +1,3 @@
 #!/bin/bash -x
 
-./db/setup.sh
+python ./db/setup.py
