@@ -30,7 +30,35 @@ This may take a moment, since it has to provision the VM. Once that is finished,
 
 `Catalog-App./vagrant/machines/default/virtualbox`
 
-Use it to ssh into the box(I used putty). When you login you should see:
+Now you need to login to the box. I used putty to do that, here's the instructions:
+
+1) Once vagrant is done provisioning the VM, you should be able to see this: 
+
+![Screenshot 1](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/vagrant_up_done.PNG)
+
+2) Now you need to use PuttyGen to turn the generated private_key into Putty's format. First we load it:
+
+![Screenshot 2](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_gen_loading_key.PNG)
+
+3) And then we save it in Putty's format:
+
+![Screenshot 3](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_gen_saving_key.PNG)
+
+4) Now load the newly created key into Putty:
+
+![Screenshot 4](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_loading_key_1.PNG)
+
+![Screenshot 5](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_loading_key_2.PNG)
+
+5) This is how putty's main screen should look like(Note that the port is 2222, not 22!), click open.
+
+![Screenshot 5](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_all_set.PNG)
+
+6) Now enter vagrant as the user:
+
+![Screenshot 5](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/putty_logging_in.PNG)
+
+Then you should see:
 
 ```
 ...
