@@ -126,17 +126,13 @@ Once the app has been built, you can restart it like this:
         ├── config/
             ├── config.py # Configuration file
         ├── db/
-        ├── react_docs/
+        ├── react_docs
+            ├── index.html
         ├── static/
         ├── templates/
         ├── tools/
 ```
 *Created with esdoc
-
-The backend's documentation(created using flask-autodoc), can be accessed by navigating to: 
-
-*http://0.0.0.0:5000/documentation
-
 
 # Building ReactJS App
 
