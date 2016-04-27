@@ -15,9 +15,9 @@ User can add,edit and delete categories and add,edit and delete their respective
 # First Run
 
 **Prerequisites** 
-You will need vagrant installed on your computer for this application to run.
+You will need [Vagrant](http://www.vagrantup.com/)  installed on your computer for this application to run.
 
-First clone the repo and get inside the folder.
+After installing vagrant. Clone the repo and get inside the folder.
 
 `$ git clone https://github.com/wilbertcr/Catalog-App.git`
 `$ cd Catalog-App`
