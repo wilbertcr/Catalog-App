@@ -159,10 +159,11 @@ Once the app has been built, you can restart it like this:
             ├── config.py # Configuration file
         ├── db/
             ├── database.py # SQLAlchemy setup. 
-            ├── models.py 
+            ├── models.py # Models file
             ├── populate_db.py # Script pre-populates the DB.
-            ├── reset_database.sql # Sets up vagrant user's password, drops the database and recreates it.
-            ├── setup.py # Calls setup_db.sh, initializes SQLAlchemy and Prepopulates DB.
+            ├── reset_db.sql # Created by setup.py and ran by setup_db.sh.
+            ├── setup.py # Creates reset_db.sql based on configuration, runs setup_db.sh, 
+                           # initializes SQLAlchemy and Prepopulates DB.
             ├── setup_db.sh # Executes reset_database.sql
         ├── react_docs
             ├── index.html # Main and only template.
