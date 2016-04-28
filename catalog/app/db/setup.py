@@ -11,12 +11,14 @@ sql_command_1 = "ALTER ROLE "+Config.DB_CONNECT_OPTIONS['username']+" WITH ENCRY
                 Config.DB_CONNECT_OPTIONS['password']+"';\n"
 sql_command_2 = "DROP DATABASE IF EXISTS "+Config.DB_CONNECT_OPTIONS['dbname']+";\n"
 sql_command_3 = "CREATE DATABASE "+Config.DB_CONNECT_OPTIONS['dbname']+";\n"
+warning = "/* This file is automatically created. Anything you'll write here will " \
+          "be deleted when database is setup again.*/\n"
 reset_db_file = open(reset_db_path, 'w')
 reset_db_file.write(sql_command_1)
 reset_db_file.write(sql_command_2)
 reset_db_file.write(sql_command_3)
-sleep(3)
-
+reset_db_file.close()
+sleep(2)
 # Script sets up password and database in the database server.
 
 call(setup_path)
