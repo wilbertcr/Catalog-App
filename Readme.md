@@ -17,6 +17,11 @@ User can add,edit and delete categories and add,edit and delete their respective
 **Prerequisites** 
 You will need [Vagrant](http://www.vagrantup.com/)  installed on your computer for this application to run.
 
+The application uses Google's OAuth2 to Verify users(Logged in users have CRUD privilege). That means  that in order 
+for it to work, you need to get the client_secrets.json file from google's developer console. I cannot put it in the 
+repo since it is supposed to be secret! Pls refer to file structure at the bottom to see where it is supposed to be
+placed.
+
 After installing vagrant. Clone the repo and get inside the folder.
 
 ```
@@ -150,21 +155,21 @@ Once the app has been built, you can restart it like this:
     ├── run_app.py
     ├── app
         ├── build_React_app.sh # Executes gulp's default task.
+        ├── client_secrets.json # You need to get this(Or I may have sent you mine) from console.google.developers
         ├── controllers.py # Holds all the controllers
         ├── install_ReactJS_dev_packages.sh # Installs all Javascript development dependencies
         ├── package.json # NPM manifesto.
         ├── setup_database.sh # Resets and populates Database.
         ├── components/ # Folder contains all ReactJS components.
+        ├── bin/
+            ├── setup_db.sh/    
         ├── config/
             ├── config.py # Configuration file
         ├── db/
             ├── database.py # SQLAlchemy setup. 
             ├── models.py # Models file
             ├── populate_db.py # Script pre-populates the DB.
-            ├── reset_db.sql # Created by setup.py and ran by setup_db.sh.
-            ├── setup.py # Creates reset_db.sql based on configuration, runs setup_db.sh, 
-                           # initializes SQLAlchemy and Prepopulates DB.
-            ├── setup_db.sh # Executes reset_database.sql
+            ├── reset_db.sql # Created by setup.py and ran by setup_db.sh.                        
         ├── react_docs
             ├── index.html # Main and only template.
         ├── static/
