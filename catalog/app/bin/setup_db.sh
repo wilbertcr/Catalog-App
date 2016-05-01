@@ -4,4 +4,4 @@
 # regardless of where is called from.
 cd $(dirname $0)
 # Here we setup a password for vagrant and create our DB.
-psql -f reset_db.sql
+psql -f ../db/reset_db.sql

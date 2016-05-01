@@ -1,5 +1,15 @@
-from models import Base, User, Category, Item
-from database import db_session
+if __package__ is None:
+    # File is not being used as a package, we need to add
+    # upper levels to PYTHONPATH so import is succesfull.
+    from os import sys, path
+    sys.path.append(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+    from db.database import db_session
+    from db.models import Base, User, Category, Item
+else:
+    # File is being used as a package so we can just use a relative import.
+    from models import Base, User, Category, Item
+    from database import db_session
+
 
 category1 = Category(name="Baseball",
                      picture="/static/images/sports_icons/svg/baseball.svg")
