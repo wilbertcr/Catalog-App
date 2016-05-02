@@ -106,7 +106,7 @@ Go to the app folder:
  
 And setup the database:
 
-`$ ./setup_database.sh`
+`$ python setup_db.py`
 
 Get out:
 `$ cd ..`
