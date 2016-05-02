@@ -208,7 +208,7 @@ Now install all dependencies(This may take a while depending on your internet):
 
 Now you need to instal gulp globally(within the VM):
 
-`$ npm install --global gulp-cli`
+`$ sudo npm install --global gulp-cli`
 
 Once you have installed gulp-cli globally, you can go here and run the different gulp 
 tasks:
