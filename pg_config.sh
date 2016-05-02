@@ -3,6 +3,8 @@ apt-get -qqy install postgresql python-psycopg2
 apt-get -qqy install python-flask python-sqlalchemy
 apt-get -qqy install python-pip
 apt-get -qqy install libpq-dev python-dev
+apt-get -qqy install curl
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 apt-get -qqy install nodejs
 apt-get -qqy install npm
 
