@@ -15,12 +15,18 @@ User can add,edit and delete categories and add,edit and delete their respective
 # First Run
 
 **Prerequisites** 
-You will need [Vagrant](http://www.vagrantup.com/)  installed on your computer for this application to run.
+____________________________________________________________
+**client_secrets.json**: 
 
-The application uses Google's OAuth2 to Verify users(Logged in users have CRUD privilege). That means  that in order 
-for it to work, you need to get the client_secrets.json file from google's developer console. I cannot put it in the 
-repo since it is supposed to be secret! Pls refer to file structure at the bottom to see where it is supposed to be
-placed.
+The application uses Google's [OAuth2](https://developers.google.com/identity/protocols/OAuth2) to Verify users(Logged in users have CRUD privilege) so it runs google's client side OAuth2 SDK. Please read the documentation. The project uses the file "client_secrets.json" which contents are those of the file you get from here(I may have sent you the contents separately for easy of use and security.):
+
+![Screenshot 1](https://raw.githubusercontent.com/wilbertcr/Catalog-App/master/catalog/app/instructions_snapshots/getting_client_secrets.PNG)
+
+That means  that in order for it to work, you need to get the client_secrets.json file either from me or from google's developer console(see above). I CANNOT put it in the repo since it is supposed to be secret :). 
+
+Finally, whichever way you got client_secrets.json, please refer to file structure at the bottom of this README to see where it is supposed to be placed.
+___________________________________________________
+You will need [Vagrant](http://www.vagrantup.com/)  installed on your computer for this application to run. Please install it and get back here.
 
 After installing vagrant. Clone the repo and get inside the folder.
 
