@@ -37,6 +37,12 @@ gulp.task('doc',function(cb){
 gulp.task('webpack',['transpile'],function(callback){
     var conf = Object.create(webpackConfig);
     conf.plugins = [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+
+        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin()
     ];
@@ -47,8 +53,6 @@ gulp.task('webpack',['transpile'],function(callback){
             colors: true,
             progress: true
         }));
-        console.log(error);
-        error = "No error";
         callback();
     });
 });
