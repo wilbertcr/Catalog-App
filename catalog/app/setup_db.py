@@ -31,7 +31,7 @@ def store_statements_into_reset_file(filename, statements):
         for statement in statements:
             opened_file.write(statement)
 
-
+# Build a list of SQL statements.
 sql_statements = ["/* This file is automatically created. Anything you'll write here "
                   "will be deleted when database is setup again.*/\n",
                   build_alter_role_query(Config.DB_CONNECT_OPTIONS['username'],
@@ -39,15 +39,19 @@ sql_statements = ["/* This file is automatically created. Anything you'll write 
                   build_drop_database_query(Config.DB_CONNECT_OPTIONS['dbname']),
                   build_create_database_query(Config.DB_CONNECT_OPTIONS['dbname'])]
 
+# Write list of SQL statements to file
 store_statements_into_reset_file(reset_db_path, sql_statements)
+
+# Let's allow some time for the writing to be done.
 sleep(2)
-# Script sets up password and database in the database server.
+
+# Now we call the script we just created.
 call(setup_path)
 
-# Initiate database tables(SQLAlchemy)
+# Initialize database tables(SQLAlchemy)
 database.init_db()
 
-# Populates database.
+# Now we populate the database.
 
 # Here's how you do it in Python 2
 # execfile(populate_path)
