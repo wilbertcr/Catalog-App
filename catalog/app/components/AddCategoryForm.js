@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-import validator from 'validator';
+var DOMPurify = require('dompurify');
 
 
 /**
@@ -62,7 +62,7 @@ export default class AddCategoryForm extends Component {
      * */
     updateName(){
         //First we sanitize the input.
-        var name = validator.sanitize(this.textInput.value).xss();
+        var name = DOMPurify.sanitize(this.textInput.value);
         //Then we update the state.
         this.setState({...this.state,
             name: name,

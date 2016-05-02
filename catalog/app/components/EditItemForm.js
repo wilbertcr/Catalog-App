@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-import validator from 'validator';
+var DOMPurify = require('dompurify');
+
 
 /**
  * Form allows edition of items.
@@ -101,7 +102,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the "Name" field.
          * */
         //First we sanitize the input.
-        let newName = validator.sanitize(this.inputName.value).xss();
+        let newName = DOMPurify.sanitize(this.inputName.value);
         //Then we update the state.
         this.setState({
             ...this.state,
@@ -121,7 +122,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the "Price" field.
          * See updateName.
          * */
-        let newPrice = validator.sanitize(this.inputPrice.value).xss();
+        let newPrice = DOMPurify.sanitize(this.inputPrice.value);
         this.setState({
             ...this.state,
             price: newPrice,
@@ -137,7 +138,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the "Description" field.
          * See updateName for more details.
          * */
-        let newDescription = validator.sanitize(this.inputDescription.value).xss();
+        let newDescription = DOMPurify.sanitize(this.inputDescription.value);
         this.setState({
             ...this.state,
             description: newDescription,

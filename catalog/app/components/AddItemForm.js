@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-import validator from 'validator';
+var DOMPurify = require('dompurify');
+
 
 /**
  *
@@ -84,7 +85,7 @@ export default class AddItemForm extends Component {
     }
 
     updateName(e){
-        let newName = validator.sanitize(this.inputName.value).xss();
+        let newName = DOMPurify.sanitize(this.inputName.value);
         this.setState({
             ...this.state,
             name: newName,
@@ -97,7 +98,7 @@ export default class AddItemForm extends Component {
 
     updatePrice(e){
 
-        let newPrice = validator.sanitize(this.inputPrice.value).xss();
+        let newPrice = DOMPurify.sanitize(this.inputPrice.value);
         this.setState({
             ...this.state,
             price: newPrice,
@@ -109,7 +110,7 @@ export default class AddItemForm extends Component {
     }
 
     updateDescription(e){
-        let newDescription = validator.sanitize(this.inputDescription.value).xss();
+        let newDescription = DOMPurify.sanitize(this.inputDescription.value);
         this.setState({
             ...this.state,
             description: newDescription,
