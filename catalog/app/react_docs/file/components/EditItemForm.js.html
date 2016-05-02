@@ -56,7 +56,8 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
 import ReactDOM from &apos;react-dom&apos;;
 import Component from &apos;./Component&apos;;
-import validator from &apos;validator&apos;;
+var DOMPurify = require(&apos;dompurify&apos;);
+
 
 /**
  * Form allows edition of items.
@@ -156,7 +157,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the &quot;Name&quot; field.
          * */
         //First we sanitize the input.
-        let newName = validator.sanitize(this.inputName.value).xss();
+        let newName = DOMPurify.sanitize(this.inputName.value);
         //Then we update the state.
         this.setState({
             ...this.state,
@@ -176,7 +177,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the &quot;Price&quot; field.
          * See updateName.
          * */
-        let newPrice = validator.sanitize(this.inputPrice.value).xss();
+        let newPrice = DOMPurify.sanitize(this.inputPrice.value);
         this.setState({
             ...this.state,
             price: newPrice,
@@ -192,7 +193,7 @@ export default class EditItemForm extends Component {
          * Callback for onChange event in the &quot;Description&quot; field.
          * See updateName for more details.
          * */
-        let newDescription = validator.sanitize(this.inputDescription.value).xss();
+        let newDescription = DOMPurify.sanitize(this.inputDescription.value);
         this.setState({
             ...this.state,
             description: newDescription,

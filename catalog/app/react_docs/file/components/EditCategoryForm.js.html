@@ -56,7 +56,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
 import ReactDOM from &apos;react-dom&apos;;
 import Component from &apos;./Component&apos;;
-import validator from &apos;validator&apos;;
+var DOMPurify = require(&apos;dompurify&apos;);
 
 
 /**
@@ -127,9 +127,10 @@ export default class EditCategoryForm extends Component {
      * */
     updateName(){
         //First we sanitize the input.
-        var name = validator.sanitize(this.textInput.value).xss();
+        var name = DOMPurify.sanitize(this.textInput.value);
         //Then we update the state.
-        this.setState({...this.state,
+        this.setState({
+            ...this.state,
             //Update the value of the field.
             name: name,
             //The form is validated if the name field is not empty.
@@ -145,14 +146,16 @@ export default class EditCategoryForm extends Component {
             //If the category is validated.
             if(this.hasChanged()){
                 //And the content has changed.
-
+                let newCategory = {...this.props.category};
+                newCategory.name = this.state.name;
                 //We change the name
                 this.setState({
+                    ...this.state,
                     stage: 0,
-                    category: {...category,name: this.state.name}
+                    category: newCategory
                 });
                 //Then ship to the function that will ship it down the wire.
-                this.props.editCategory(this.state.category);
+                this.props.editCategory(newCategory);
             }
             //I&apos;ll close the modal either way.
             this.props.switchModalVisibility();
