@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-var bleach = require('bleach');
+import validator from 'validator';
 
 /**
  *
@@ -84,7 +84,7 @@ export default class AddItemForm extends Component {
     }
 
     updateName(e){
-        let newName = bleach.sanitize(this.inputName.value);
+        let newName = validator.sanitize(this.inputName.value).xss();
         this.setState({
             ...this.state,
             name: newName,
@@ -97,7 +97,7 @@ export default class AddItemForm extends Component {
 
     updatePrice(e){
 
-        let newPrice = bleach.sanitize(this.inputPrice.value);
+        let newPrice = validator.sanitize(this.inputPrice.value).xss();
         this.setState({
             ...this.state,
             price: newPrice,
@@ -109,7 +109,7 @@ export default class AddItemForm extends Component {
     }
 
     updateDescription(e){
-        let newDescription = bleach.sanitize(this.inputDescription.value);
+        let newDescription = validator.sanitize(this.inputDescription.value).xss();
         this.setState({
             ...this.state,
             description: newDescription,

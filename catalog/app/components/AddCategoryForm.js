@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-var bleach = require('bleach');
+import validator from 'validator';
+
 
 /**
  *
@@ -61,7 +62,7 @@ export default class AddCategoryForm extends Component {
      * */
     updateName(){
         //First we sanitize the input.
-        var name = bleach.sanitize(this.textInput.value);
+        var name = validator.sanitize(this.textInput.value).xss();
         //Then we update the state.
         this.setState({...this.state,
             name: name,

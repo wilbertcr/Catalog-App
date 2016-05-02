@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-var bleach = require('bleach');
 
 /**
  * Wrapper around Semantic-ui's "ui form". May be I should just call it Form.

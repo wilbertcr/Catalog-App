@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './Component';
-var bleach = require('bleach');
+import validator from 'validator';
+
 
 /**
  * Wrapper around Semantic-ui's "ui form". May be I should just call it Form.
@@ -71,7 +72,7 @@ export default class EditCategoryForm extends Component {
      * */
     updateName(){
         //First we sanitize the input.
-        var name = bleach.sanitize(this.textInput.value);
+        var name = validator.sanitize(this.textInput.value).xss();
         //Then we update the state.
         this.setState({...this.state,
             //Update the value of the field.
