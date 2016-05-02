@@ -18,6 +18,7 @@
     "babel-plugin-transform-object-rest-spread": "~6.6.5",
     "babel-preset-es2016": "~6.0.11",
     "babel-preset-react": "~6.5.0",
+    "dompurify": "^0.7.4",
     "esdoc-es7-plugin": "0.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
@@ -27,7 +28,6 @@
     "react-dom": "^15.0.2",
     "sanitize-html": "^1.11.4",
     "todate": "0.0.7",
-    "validator": "^5.2.0",
     "webpack": "~1.13.0"
   },
   "dependencies": {}
