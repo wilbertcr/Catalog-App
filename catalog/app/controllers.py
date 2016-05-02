@@ -36,7 +36,7 @@ def main_page():
     state = get_new_state()
     login_session['state'] = state
     # "Current sessions state {0}".format(login_session['state'])
-    return render_template('index.html', time=time, STATE=state)
+    return render_template('index.html', time=time, STATE=state, debugging=app.debug)
 
 
 @app.route('/gconnect', methods=['POST'])
