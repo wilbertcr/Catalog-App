@@ -198,9 +198,24 @@ Once the app has been built, you can restart it like this:
 
 # Building ReactJS App
 
-In order for changes to the code to take effect you need to build the app.I used gulp to manage the building process. 
+The first thing you need to do, is to install all the dependencies. To do this enter:
+
+`$ cd catalog/app`
+
+Now install all dependencies(This may take a while depending on your internet):
+
+`$ npm install --save-dev --no-bin-links`
+
+Now you need to instal gulp globally(within the VM):
+
+`$ npm install --global gulp-cli`
+
+Once you have installed gulp-cli globally, you can go here and run the different gulp 
+tasks:
 
 `$ cd catalog/app/tools`
+
+## Gulp Tasks Available
 
 **Build: Transpile, Package and Document**
 
